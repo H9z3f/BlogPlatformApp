@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS blog_platform;
+
+CREATE TABLE Users (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Blogs (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES Users(id),
+    blog_name VARCHAR(255) NOT NULL,
+    blog_description TEXT NOT NULL,
+    blog_theme VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Posts (
+    id SERIAL PRIMARY KEY,
+    blog_id INTEGER REFERENCES Blogs(id) ON DELETE CASCADE,
+    post_title VARCHAR(255) NOT NULL,
+    post_text TEXT NOT NULL
+);
+
+CREATE TABLE Post_Ratings (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES Users(id),
+    post_id INTEGER REFERENCES Posts(id) ON DELETE CASCADE
+);
